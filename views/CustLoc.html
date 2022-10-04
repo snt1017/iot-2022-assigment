@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Show Locations</title>
+    </head>
+    <body>
+        <h1>Database Content</h1>
+        <p>
+        <table border="1">
+            <% rows.forEach( function(row) {%>
+                <tr>
+                    <td><%= Locations.LocId%></td>
+                    <td><%= Locations.city%></td>
+                    <td><%= row.custName%></td>
+                </tr>
+            <%}) %>
+        </table>
+        <table border="1">
+            <% rows.forEach( function(row) {%>
+                <tr>
+                    <td><%= row.custName%></td>
+                </tr>
+            <%}) %>
+        </table>
+        </p>
+    </body>
+</html> 
