@@ -1,0 +1,58 @@
+<!doctype html>
+
+<html ng-app="angLocApp">
+
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
+	<script src="/ngLocations.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
+	<meta charset="UTF-8">
+</head>
+
+<body>
+	<h1>Locations</h1>
+	<div ng-controller="LocationsListController">
+
+		<table>
+			<tr ng-repeat="location in locations">
+				<td>{{ location.locId }}</td>
+				<td>{{ location.locAddress }}</td>
+				<td>{{ location.city }}</td>
+			</tr>
+
+		</table>
+
+
+		<div class="form-table">
+			<table>
+			  <form ng-submit="newLocation()">
+				<td colspan="2" class="text-center form-table-td">
+				  <h3>Update new location</h3>
+				</td>
+				<tr>
+				  <td class="form-table-td">Address</td>
+				  <td class="form-table-td">
+					<input class="form-input" type="text" size="30" ng-model="newAddress" />
+				  </td>
+				</tr>
+				<tr>
+				  <td class="form-table-td">City</td>
+				  <td class="form-table-td">
+					<input class="form-input" type="text" size="15" ng-model="newCity" />
+				  </td>
+				</tr>
+				<tr>
+				  <td colspan="2" class="text-center form-table-td">
+					<input type="submit" value="Add" />
+				  </td>
+				</tr>
+			  </form>
+			</table>
+		  </div>
+		</div>
+
+
+	</div>
+</body>
+
+</html>

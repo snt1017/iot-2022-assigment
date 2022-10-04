@@ -1,0 +1,102 @@
+<!doctype html>
+
+<html ng-app="angLocApp">
+
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
+  <script src="/ngCustomers.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+  <meta charset="UTF-8">
+</head>
+
+<body>
+  <h1>Customers</h1>
+  <div ng-controller="LocationsListController">
+
+    <div>
+      <table>
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Location</th>
+          <th>Actions</th>
+        </tr>
+        <tr ng-repeat="customer in customers">
+          <td>{{ customer.custId }}</td>
+          <td>{{ customer.custName }}</td>
+          <td>{{ customer.locAddress }} - {{ customer.city }}</td>
+          <td>
+            <a ng-click="deleteCustomer(customer)">Delete</a>
+            <a ng-click="updateCustomer(customer)">Update</a>
+          </td>
+        </tr>
+
+      </table>
+    </div>
+
+
+    <div class="form-table" ng-if="action=='add'">
+      <table>
+        <form ng-submit="addCustomer()">
+          <td colspan="2" class="text-center form-table-td">
+            <h3>Add new customer</h3>
+          </td>
+          <tr>
+            <td class="form-table-td">Name</td>
+            <td class="form-table-td">
+              <input class="form-input" type="text" ng-model="newName" />
+            </td>
+          </tr>
+          <tr>
+            <td class="form-table-td">Location</td>
+            <td class="form-table-td">
+              <select class="form-input" ng-model="newLocation">
+                <option ng-repeat="location in locations" value="{{location.locId}}">{{location.locAddress}} -
+                  {{location.city}}</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="text-center form-table-td">
+              <input type="submit" value="Add" />
+            </td>
+          </tr>
+        </form>
+      </table>
+    </div>
+
+    <div class="form-table" ng-if="action=='update' && customerToUpdate">
+      <table>
+
+        <td colspan="2" class="text-center form-table-td">
+          <h3>Update customer {{customerToUpdate.custName}}</h3>
+        </td>
+        <tr>
+          <td class="form-table-td">Name</td>
+          <td class="form-table-td">
+            <input class="form-input" type="text" ng-model="customerToUpdate.custName" />
+          </td>
+        </tr>
+        <tr>
+          <td class="form-table-td">Location</td>
+          <td class="form-table-td">
+            <select class="form-input" ng-model="customerToUpdate.custLocation">
+              <option ng-repeat="location in locations" value="{{location.locId}}">{{location.locAddress}} -
+                {{location.city}}</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" class="text-center form-table-td">
+            <button ng-click="saveCustomer()"> Button </button>
+          </td>
+        </tr>
+
+      </table>
+    </div>
+
+  </div>
+
+</body>
+
+</html>
