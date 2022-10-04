@@ -1,9 +1,9 @@
 locApp = angular.module('angLocApp', []);
 
-locApp.controller('LocationsListController', function ($scope, $http) {
+locApp.controller('LocationsController', function ($scope, $http) {
 
-	let URL_ALL_LOCS = "http://0.0.0.0:3016/getAllLocations";
-	let URL_INSERT_LOC = "http://0.0.0.0:3016/insLocation?";
+	let URL_ALL_LOCS = document.location.origin + "/getAllLocations";
+	let URL_INSERT_LOC = document.location.origin + "/insLocation?";
 
 	$scope.locations = [];
 

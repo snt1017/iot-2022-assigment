@@ -3,9 +3,20 @@ module.exports = (app, db) => {
 	app.get('/', (req, res) => {
 		// send the main (and unique) page
 		res.setHeader('Content-Type', 'text/html');
-		res.sendFile(__dirname + '/views' + '/ngLocations.html');
+		res.sendFile(__dirname + '/views' + '/ngIndex.html');
 	});
 
+	app.get('/ngIndex.js', (req, res) => {
+		// send the angular app
+		res.setHeader('Content-Type', 'application/javascript');
+		res.sendFile(__dirname + '/js' + '/ngIndex.js');
+	});
+
+	app.get('/locations', (req, res) => {
+		// send the main (and unique) page
+		res.setHeader('Content-Type', 'text/html');
+		res.sendFile(__dirname + '/views' + '/ngLocations.html');
+	});
 
 	app.get('/ngLocations.js', (req, res) => {
 		// send the angular app
@@ -13,18 +24,43 @@ module.exports = (app, db) => {
 		res.sendFile(__dirname + '/js' + '/ngLocations.js');
 	});
 
-	app.get('/customer', (req, res) => {
+	app.get('/customers', (req, res) => {
 		// send the main (and unique) page
 		res.setHeader('Content-Type', 'text/html');
 		res.sendFile(__dirname + '/views' + '/ngCustomers.html');
 	});
-
 
 	app.get('/ngCustomers.js', (req, res) => {
 		// send the angular app
 		res.setHeader('Content-Type', 'application/javascript');
 		res.sendFile(__dirname + '/js' + '/ngCustomers.js');
 	});
+
+	app.get('/parcels', (req, res) => {
+		// send the main (and unique) page
+		res.setHeader('Content-Type', 'text/html');
+		res.sendFile(__dirname + '/views' + '/ngParcels.html');
+	});
+
+	app.get('/ngParcels.js', (req, res) => {
+		// send the angular app
+		res.setHeader('Content-Type', 'application/javascript');
+		res.sendFile(__dirname + '/js' + '/ngParcels.js');
+	});
+
+	app.get('/add-parcel', (req, res) => {
+		// send the main (and unique) page
+		res.setHeader('Content-Type', 'text/html');
+		res.sendFile(__dirname + '/views' + '/ngAddParcel.html');
+	});
+
+	app.get('/ngAddParcel.js', (req, res) => {
+		// send the angular app
+		res.setHeader('Content-Type', 'application/javascript');
+		res.sendFile(__dirname + '/js' + '/ngAddParcel.js');
+	});
+
+	
 
 	app.get('/getAllLocations', (req, res) => {
 		let sql = 'SELECT locId, locAddress, city FROM Locations';

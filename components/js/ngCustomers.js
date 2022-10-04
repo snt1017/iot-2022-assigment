@@ -1,12 +1,12 @@
 locApp = angular.module('angLocApp', []);
 
-locApp.controller('LocationsListController', function ($scope, $http) {
+locApp.controller('CustomersController', function ($scope, $http) {
 
-	let URL_ALL_CUST = "http://0.0.0.0:3016/getAllCustomers";
-	let URL_ALL_LOCATIONS = "http://0.0.0.0:3016/getAllLocations";
-	let URL_INSERT_CUST = "http://0.0.0.0:3016/insCustomer?";
-	let URL_DELETE_CUST = "http://0.0.0.0:3016/delCustomer?";
-	let URL_UPDATE_CUST = "http://0.0.0.0:3016/updateCustomer?";
+	let URL_ALL_CUST = document.location.origin + "/getAllCustomers";
+	let URL_ALL_LOCATIONS = document.location.origin + "/getAllLocations";
+	let URL_INSERT_CUST = document.location.origin + "/insCustomer?";
+	let URL_DELETE_CUST = document.location.origin + "/delCustomer?";
+	let URL_UPDATE_CUST = document.location.origin + "/updateCustomer?";
 
 
 	$scope.customers = [];
