@@ -13,8 +13,13 @@ locApp.controller('CustomersController', function ($scope, $http) {
 	$scope.locations = [];
 
 	$scope.customerToUpdate = null;
-	$scope.action = 'update';
+	$scope.action = null;
 	$scope.custLocation = 1;
+
+	$scope.newCustomer = {
+		name: '',
+		location: ''
+	}
 
 	$http.get(URL_ALL_CUST).then(function (response) {
 		if (!response.data) $scope.customers = [];
@@ -28,10 +33,11 @@ locApp.controller('CustomersController', function ($scope, $http) {
 		$scope.locations = response.data;
 	});
 
-	$scope.addCustomer = function () {
+	$scope.addCustomer = () => {
+		console.debug("[addCustomer]", $scope.newName, $scope.newLocation);
 		let newRawLoc = {};
 		let newLoc = {};
-		$http.get(URL_INSERT_CUST + `newName=${$scope.newName}&newLocation=${$scope.newLocation}`)
+		$http.get(URL_INSERT_CUST + `newName=${$scope.newCustomer.name}&newLocation=${$scope.newCustomer.location}`)
 			.then(function (response) {
 				newRawLoc = response.data;
 				let location = $scope.locations.find((e) => e.locId == newRawLoc.custLocation);
@@ -42,7 +48,14 @@ locApp.controller('CustomersController', function ($scope, $http) {
 					"locAddress": location.locAddress, "city": location.city
 				};
 				$scope.customers.push(newLoc);
+				$scope.action = 'null'
 			});
+	}
+
+	$scope.showAddCustomer = () => {
+		$scope.newName = '';
+		$scope.newLocation = '';
+		$scope.action = 'add';
 	}
 
 
@@ -64,17 +77,16 @@ locApp.controller('CustomersController', function ($scope, $http) {
 		console.debug("[saveCustomer]", $scope.customerToUpdate);
 		$http.get(URL_UPDATE_CUST + `customerId=${$scope.customerToUpdate.custId}&custName=${$scope.customerToUpdate.custName}&custLocation=${$scope.customerToUpdate.custLocation}`).then(function (response) {
 			let newRawLoc = response.data;
-			let i = $scope.customers.findIndex((e)=>e.custId === $scope.customerToUpdate.custId);
+			let i = $scope.customers.findIndex((e) => e.custId === $scope.customerToUpdate.custId);
 			let location = $scope.locations.find((e) => e.locId == newRawLoc.custLocation);
-
 			console.debug(i, $scope.customers);
-
 			$scope.customers[i].custName = newRawLoc.custName;
 			$scope.customers[i].custLocation = String(newRawLoc.custLocation);
 			$scope.customers[i].locAddress = location.locAddress;
 			$scope.customers[i].city = location.city;
 			$scope.action = null;
 			$scope.customerToUpdate = null;
+			$scope.action = null;
 		});
 	}
 

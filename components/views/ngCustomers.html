@@ -13,6 +13,27 @@
   <h1>Customers</h1>
   <div ng-controller="CustomersController">
 
+    <div class="form-table" style="margin-bottom: 10px;">
+      <table>
+        <!-- <tr>
+          <td class="text-center form-table-td">
+            Filter by customer
+          </td>
+          <td class="text-center form-table-td">
+            <select class="form-input" ng-model="customerToFilter" ng-change="onChangeParcels()">
+              <option value="all">Show all</option>
+              <option ng-repeat="c in customers" value="{{c.custId}}">{{c.custId}} - {{c.custName}}</option>
+            </select>
+          </td>
+        </tr> -->
+        <tr>
+          <td class="text-center form-table-td" colspan="2">
+            <button class="button-22" ng-click="showAddCustomer()"> Create customer </button>
+          </td>
+        </tr>
+      </table>
+    </div>
+
     <div>
       <table>
         <tr>
@@ -37,31 +58,32 @@
 
     <div class="form-table" ng-if="action=='add'">
       <table>
-        <form ng-submit="addCustomer()">
-          <td colspan="2" class="text-center form-table-td">
-            <h3>Add new customer</h3>
+
+        <td colspan="2" class="text-center form-table-td">
+          <h3>Create customer</h3>
+        </td>
+        <tr>
+          <td class="form-table-td">Name</td>
+          <td class="form-table-td">
+            <input class="form-input" type="text" ng-model="newCustomer.name" />
           </td>
-          <tr>
-            <td class="form-table-td">Name</td>
-            <td class="form-table-td">
-              <input class="form-input" type="text" ng-model="newName" />
-            </td>
-          </tr>
-          <tr>
-            <td class="form-table-td">Location</td>
-            <td class="form-table-td">
-              <select class="form-input" ng-model="newLocation">
-                <option ng-repeat="location in locations" value="{{location.locId}}">{{location.locAddress}} -
-                  {{location.city}}</option>
-              </select>
-            </td>
-          </tr>
-          <tr>
-            <td colspan="2" class="text-center form-table-td">
-              <input type="submit" value="Add" />
-            </td>
-          </tr>
-        </form>
+        </tr>
+        <tr>
+          <td class="form-table-td">Location</td>
+          <td class="form-table-td">
+            <select class="form-input" ng-model="newCustomer.location">
+              <option ng-repeat="location in locations" value="{{location.locId}}">
+                {{location.locAddress}} - {{location.city}}
+              </option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" class="text-center form-table-td">
+            <button class="button-22" ng-click="addCustomer()"> Save </button>
+          </td>
+        </tr>
+
       </table>
     </div>
 
@@ -81,8 +103,9 @@
           <td class="form-table-td">Location</td>
           <td class="form-table-td">
             <select class="form-input" ng-model="customerToUpdate.custLocation">
-              <option ng-repeat="location in locations" value="{{location.locId}}">{{location.locAddress}} -
-                {{location.city}}</option>
+              <option ng-repeat="location in locations" value="{{location.locId}}">
+                {{location.locAddress}} - {{location.city}}
+              </option>
             </select>
           </td>
         </tr>

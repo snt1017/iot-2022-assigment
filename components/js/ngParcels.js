@@ -6,11 +6,11 @@ locApp.controller('ParcelsController', ($scope, $http) => {
 
 	$scope.customerToFilter = 'all';
 	$scope.parcels = [];
-	$scope.customers = [];
 
 
 	$scope.loadParcels = () => {
 		console.debug("loadParcels", $scope.customerToFilter);
+		$scope.parcels = [];
 	}
 
 	$scope.onChangeParcels = () => {

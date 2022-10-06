@@ -13,6 +13,27 @@
 	<h1>Locations</h1>
 	<div ng-controller="LocationsController">
 
+		<div class="form-table" style="margin-bottom: 10px;">
+			<table>
+				<!-- <tr>
+			  <td class="text-center form-table-td">
+				Filter by customer
+			  </td>
+			  <td class="text-center form-table-td">
+				<select class="form-input" ng-model="customerToFilter" ng-change="onChangeParcels()">
+				  <option value="all">Show all</option>
+				  <option ng-repeat="c in customers" value="{{c.custId}}">{{c.custId}} - {{c.custName}}</option>
+				</select>
+			  </td>
+			</tr> -->
+				<tr>
+					<td class="text-center form-table-td" colspan="2">
+						<button class="button-22" ng-click="action='add'"> Create location </button>
+					</td>
+				</tr>
+			</table>
+		</div>
+
 		<table>
 			<tr ng-repeat="location in locations">
 				<td>{{ location.locId }}</td>
@@ -23,33 +44,31 @@
 		</table>
 
 
-		<div class="form-table">
+		<div class="form-table" ng-if="action=='add'">
 			<table>
-			  <form ng-submit="newLocation()">
 				<td colspan="2" class="text-center form-table-td">
-				  <h3>Update new location</h3>
+					<h3>Create location</h3>
 				</td>
 				<tr>
-				  <td class="form-table-td">Address</td>
-				  <td class="form-table-td">
-					<input class="form-input" type="text" size="30" ng-model="newAddress" />
-				  </td>
+					<td class="form-table-td">Address</td>
+					<td class="form-table-td">
+						<input class="form-input" type="text" size="30" ng-model="newLocation.address" />
+					</td>
 				</tr>
 				<tr>
-				  <td class="form-table-td">City</td>
-				  <td class="form-table-td">
-					<input class="form-input" type="text" size="15" ng-model="newCity" />
-				  </td>
+					<td class="form-table-td">City</td>
+					<td class="form-table-td">
+						<input class="form-input" type="text" size="15" ng-model="newLocation.city" />
+					</td>
 				</tr>
 				<tr>
-				  <td colspan="2" class="text-center form-table-td">
-					<input type="submit" value="Add" />
-				  </td>
+					<td colspan="2" class="text-center form-table-td">
+						<button class="button-22" ng-click="newLocation()"> Save </button>
+					</td>
 				</tr>
-			  </form>
 			</table>
-		  </div>
 		</div>
+	</div>
 
 
 	</div>
