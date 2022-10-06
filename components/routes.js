@@ -60,7 +60,7 @@ module.exports = (app, db) => {
 		res.sendFile(__dirname + '/js' + '/ngAddParcel.js');
 	});
 
-	
+
 
 	app.get('/getAllLocations', (req, res) => {
 		let sql = 'SELECT locId, locAddress, city FROM Locations';
@@ -144,6 +144,48 @@ module.exports = (app, db) => {
 			});
 		};
 		db.query(sql, values, postProcessInsert);
+	});
+
+
+	app.get('/insParcel', (req, res) => {
+		let Weight = (req.query.newWeight);
+		let CustID = (req.query.Custid);
+		let location = (req.query.local);
+
+		let sql = 'INSERT INTO Parcels(weight, custId, finalLocation) VALUES(?, ?)';
+		let values = [weight, CustID, location];
+		// create a json object containing the inserted location
+		let postProcessInsert = function (err, result) {
+			if (err) throw err;
+			res.json({
+				id: result.insertId, weight: Weight, custId: CustID, custLocation: location,
+				insertedLines: result.affectedRows
+			});
+		};
+		db.query(sql, values, postProcessInsert);
+	});
+
+
+	app.get('/getParcels', (req, res) => {
+		let Cust = (req.query.cust);
+		let sql;
+		let value;
+		if (Cust == null) {
+			sql = 'SELECT weight, custId, finalLocation FROM Parcels';
+			console.log(+Cust);
+		}
+		else {
+			sql = 'SELECT weight, custId, finalLocation FROM Parcels WHERE custId=?';
+			value = [Cust];
+			console.log(Cust);
+		}
+		console.log(Cust);
+		// response contains a json array with all tuples
+		let postProcessSQL = function (err, result) {
+			if (err) throw err;
+			res.json(result);
+		};
+		connection.query(sql, value, postProcessSQL);
 	});
 
 
