@@ -9,6 +9,7 @@ locApp.controller('CustomersController', function ($scope, $http) {
 	let URL_UPDATE_CUST = document.location.origin + "/updateCustomer?";
 
 
+	$scope.loadingCustomers = true;
 	$scope.customers = [];
 	$scope.locations = [];
 
@@ -27,6 +28,7 @@ locApp.controller('CustomersController', function ($scope, $http) {
 			e.custLocation = String(e.custLocation);
 		})
 		$scope.customers = response.data;
+		$scope.loadingCustomers = false;
 	});
 
 	$http.get(URL_ALL_LOCATIONS).then(function (response) {
@@ -34,7 +36,6 @@ locApp.controller('CustomersController', function ($scope, $http) {
 	});
 
 	$scope.addCustomer = () => {
-		console.debug("[addCustomer]", $scope.newName, $scope.newLocation);
 		let newRawLoc = {};
 		let newLoc = {};
 		$http.get(URL_INSERT_CUST + `newName=${$scope.newCustomer.name}&newLocation=${$scope.newCustomer.location}`)
@@ -42,7 +43,10 @@ locApp.controller('CustomersController', function ($scope, $http) {
 				newRawLoc = response.data;
 				let location = $scope.locations.find((e) => e.locId == newRawLoc.custLocation);
 				$scope.newName = null;
-				$scope.newLocation = null;
+				$scope.newCustomer = {
+					name: '',
+					location: ''
+				};
 				newLoc = {
 					"custId": newRawLoc.id, "custName": newRawLoc.custName, "custLocation": String(newRawLoc.custLocation),
 					"locAddress": location.locAddress, "city": location.city
@@ -53,8 +57,10 @@ locApp.controller('CustomersController', function ($scope, $http) {
 	}
 
 	$scope.showAddCustomer = () => {
-		$scope.newName = '';
-		$scope.newLocation = '';
+		$scope.newCustomer = {
+			name: '',
+			location: ''
+		};
 		$scope.action = 'add';
 	}
 
@@ -75,7 +81,9 @@ locApp.controller('CustomersController', function ($scope, $http) {
 
 	$scope.saveCustomer = () => {
 		console.debug("[saveCustomer]", $scope.customerToUpdate);
-		$http.get(URL_UPDATE_CUST + `customerId=${$scope.customerToUpdate.custId}&custName=${$scope.customerToUpdate.custName}&custLocation=${$scope.customerToUpdate.custLocation}`).then(function (response) {
+		let url = URL_UPDATE_CUST + `customerId=${$scope.customerToUpdate.custId}&custName=${$scope.customerToUpdate.custName}&custLocation=${$scope.customerToUpdate.custLocation}`;
+
+		$http.get(url).then(function (response) {
 			let newRawLoc = response.data;
 			let i = $scope.customers.findIndex((e) => e.custId === $scope.customerToUpdate.custId);
 			let location = $scope.locations.find((e) => e.locId == newRawLoc.custLocation);
@@ -84,10 +92,19 @@ locApp.controller('CustomersController', function ($scope, $http) {
 			$scope.customers[i].custLocation = String(newRawLoc.custLocation);
 			$scope.customers[i].locAddress = location.locAddress;
 			$scope.customers[i].city = location.city;
-			$scope.action = null;
 			$scope.customerToUpdate = null;
 			$scope.action = null;
 		});
+	}
+
+
+	$scope.cancel = () => {
+		$scope.action = null;
+		$scope.customerToUpdate = null;
+		$scope.newCustomer = {
+			name: '',
+			location: ''
+		};
 	}
 
 

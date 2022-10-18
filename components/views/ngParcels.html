@@ -3,121 +3,80 @@
 <html ng-app="angLocApp">
 
 <head>
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
   <script src="/ngParcels.js"></script>
-  <link rel="stylesheet" type="text/css" href="css/style.css" />
   <meta charset="UTF-8">
 </head>
 
 <body>
-  <h1>Parcels</h1>
+
+
   <div ng-controller="ParcelsController">
 
-    <div class="form-table" style="margin-bottom: 10px;">
-      <table>
+
+
+
+
+    <div class="container">
+      <h1>Parcels</h1>
+      <table class="center">
         <tr>
-          <td class="text-center form-table-td">
-            Filter by customer
+          <td>
+            Filter by Customer
           </td>
-          <td class="text-center form-table-td">
-            <select class="form-input" ng-model="customerToFilter" ng-change="onChangeParcels()">
+          <td>
+            <select class="form-select form-select-sm" aria-label="Default select example" ng-model="customerToFilter"
+              ng-change="onChangeParcels()">
               <option value="all">Show all</option>
               <option ng-repeat="c in customers" value="{{c.custId}}">{{c.custId}} - {{c.custName}}</option>
             </select>
           </td>
         </tr>
-        <tr>
-          <td class="text-center form-table-td" colspan="2">
-            <button class="button-22" ng-click="addParcel()"> Add new parcel </button>
+        <tr class="text-center">
+          <td colspan="2">
+            <button ng-click="addParcel()" type="button" class="btn btn-primary">
+              Add new parcel
+            </button>
           </td>
         </tr>
       </table>
-    </div>
 
-    <div>
-      <table>
-        <tr>
-          <th>Id</th>
-          <th>Weight</th>
-          <th>Customer name</th>
-          <th>Final Location</th>
-        </tr>
-        <tr ng-repeat="parcel in parcels">
-          <td>{{ parcel.parcelId }}</td>
-          <td>{{ parcel.weight }}</td>
-          <td>{{ parcel.custName }}</td>
-          <td>{{ parcel.locAddress }} - {{ customer.city }}</td>
-          <td>
-            <a ng-click="deleteCustomer(customer)">Delete</a>
-            <a ng-click="updateCustomer(customer)">Update</a>
-          </td>
-        </tr>
-
-      </table>
-    </div>
-
-
-    <div class="form-table" ng-if="action=='add'">
-      <table>
-        <form ng-submit="addCustomer()">
-          <td colspan="2" class="text-center form-table-td">
-            <h3>Add new customer</h3>
-          </td>
+      <table class="table">
+        <thead>
           <tr>
-            <td class="form-table-td">Name</td>
-            <td class="form-table-td">
-              <input class="form-input" type="text" ng-model="newName" />
+            <th>Id</th>
+            <th>Weight</th>
+            <th>Customer name</th>
+            <th>Final Location</th>
+            <!-- <th>Actions</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-if="loadingParcels">
+            <td colspan="5">
+              <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
             </td>
           </tr>
-          <tr>
-            <td class="form-table-td">Location</td>
-            <td class="form-table-td">
-              <select class="form-input" ng-model="newLocation">
-                <option ng-repeat="location in locations" value="{{location.locId}}">{{location.locAddress}} -
-                  {{location.city}}</option>
-              </select>
-            </td>
+          <tr ng-repeat="parcel in parcels">
+            <th>{{ parcel.parcelId }}</th>
+            <td>{{ parcel.weight }}</td>
+            <td>{{ parcel.custName }}</td>
+            <td>{{ parcel.locAddress }} - {{ parcel.city }}</td>
+            <!-- <td>
+              <button ng-click="viewDetails(parcel)" type="button" class="btn btn-info">Detail</button>
+            </td> -->
           </tr>
-          <tr>
-            <td colspan="2" class="text-center form-table-td">
-              <input type="submit" value="Add" />
-            </td>
-          </tr>
-        </form>
+        </tbody>
       </table>
+
+
     </div>
 
-    <div class="form-table" ng-if="action=='update' && customerToUpdate">
-      <table>
-
-        <td colspan="2" class="text-center form-table-td">
-          <h3>Update customer {{customerToUpdate.custName}}</h3>
-        </td>
-        <tr>
-          <td class="form-table-td">Name</td>
-          <td class="form-table-td">
-            <input class="form-input" type="text" ng-model="customerToUpdate.custName" />
-          </td>
-        </tr>
-        <tr>
-          <td class="form-table-td">Location</td>
-          <td class="form-table-td">
-            <select class="form-input" ng-model="customerToUpdate.custLocation">
-              <option ng-repeat="location in locations" value="{{location.locId}}">{{location.locAddress}} -
-                {{location.city}}</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" class="text-center form-table-td">
-            <button class="button-22" ng-click="saveCustomer()"> Button </button>
-          </td>
-        </tr>
-
-      </table>
-    </div>
-
-  </div>
 
 </body>
 

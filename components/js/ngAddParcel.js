@@ -28,9 +28,13 @@ locApp.controller('AddParcelController', ($scope, $http) => {
 			return showError(null, "All values are required");
 		}
 
-		// $http.get(URL_INSERT_PARCEL + `newName=${$scope.newName}&newLocation=${$scope.newLocation}`).then((response) => {
-		document.location = document.location.origin + "/parcels";
-		// });
+		$http.get(URL_INSERT_PARCEL + `?customer=${$scope.newParcel.customer}&location=${$scope.newParcel.location}&weight=${$scope.newParcel.weight}`).then((response) => {
+			document.location = document.location.origin + "/parcels";
+		});
+	}
+
+	$scope.cancel = () => {
+		document.location = document.location.origin + '/parcels';
 	}
 
 

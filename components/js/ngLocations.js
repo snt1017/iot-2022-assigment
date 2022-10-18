@@ -5,6 +5,7 @@ locApp.controller('LocationsController', function ($scope, $http) {
 	let URL_ALL_LOCS = document.location.origin + "/getAllLocations";
 	let URL_INSERT_LOC = document.location.origin + "/insLocation?";
 
+	$scope.loadingLocations = true;
 	$scope.locations = [];
 
 	$scope.newLocation = {
@@ -14,6 +15,7 @@ locApp.controller('LocationsController', function ($scope, $http) {
 
 	$http.get(URL_ALL_LOCS).then(function (response) {
 		$scope.locations = response.data;
+		$scope.loadingLocations = false;
 	});
 
 	$scope.newLocation = () => {

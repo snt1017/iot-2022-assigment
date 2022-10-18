@@ -148,17 +148,17 @@ module.exports = (app, db) => {
 
 
 	app.get('/insParcel', (req, res) => {
-		let Weight = (req.query.newWeight);
-		let CustID = (req.query.Custid);
-		let location = (req.query.local);
+		let weight = (req.query.weight);
+		let customerId = (req.query.customer);
+		let location = (req.query.location);
 
-		let sql = 'INSERT INTO Parcels(weight, custId, finalLocation) VALUES(?, ?)';
-		let values = [weight, CustID, location];
+		let sql = 'INSERT INTO Parcels(weight, custId, finalLocation) VALUES(?, ?, ?)';
+		let values = [weight, customerId, location];
 		// create a json object containing the inserted location
 		let postProcessInsert = function (err, result) {
 			if (err) throw err;
 			res.json({
-				id: result.insertId, weight: Weight, custId: CustID, custLocation: location,
+				id: result.insertId, weight: weight, custId: customerId, custLocation: location,
 				insertedLines: result.affectedRows
 			});
 		};
@@ -167,25 +167,24 @@ module.exports = (app, db) => {
 
 
 	app.get('/getParcels', (req, res) => {
-		let Cust = (req.query.cust);
+		let cust = (req.query.cust);
 		let sql;
-		let value;
-		if (Cust == null) {
-			sql = 'SELECT weight, custId, finalLocation FROM Parcels';
-			console.log(+Cust);
+		let value = [];
+		sql = 'SELECT p.parcelId, p.weight, p.custId, p.finalLocation, c.custName, l.locAddress, l.city FROM Parcels p, Locations l, Customers c ' +
+			'WHERE p.finalLocation=l.LocId and c.custId=p.custId;';
+		if (cust) {
+			sql = 'SELECT p.parcelId, p.weight, p.custId, p.finalLocation, c.custName, l.locAddress, l.city FROM Parcels p, Locations l, Customers c ' +
+				'WHERE p.finalLocation=l.LocId and c.custId=p.custId and p.custId=?;';
+			value = [cust];
 		}
-		else {
-			sql = 'SELECT weight, custId, finalLocation FROM Parcels WHERE custId=?';
-			value = [Cust];
-			console.log(Cust);
-		}
-		console.log(Cust);
+		console.log(sql);
+		console.log(JSON.stringify(value));
 		// response contains a json array with all tuples
 		let postProcessSQL = function (err, result) {
 			if (err) throw err;
 			res.json(result);
 		};
-		connection.query(sql, value, postProcessSQL);
+		db.query(sql, value, postProcessSQL);
 	});
 
 
